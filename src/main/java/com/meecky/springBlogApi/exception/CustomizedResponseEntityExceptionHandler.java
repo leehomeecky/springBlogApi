@@ -1,5 +1,6 @@
-package com.meecky.springBlogApi.exception.dto;
+package com.meecky.springBlogApi.exception;
 
+import com.meecky.springBlogApi.exception.dto.ExceptionDetailsDto;
 import com.meecky.springBlogApi.users.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
