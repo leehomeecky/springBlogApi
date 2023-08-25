@@ -11,11 +11,12 @@ import java.util.function.Predicate;
 @Component
 public class usersDaoService {
     private static final List<userDto> usersRecord = new ArrayList<>();
+    private static int userId;
 
     static {
-        usersRecord.add( new userDto(1, "Sanks", LocalDate.now().minusYears(30)));
-        usersRecord.add(new userDto(2, "sidney", LocalDate.now().minusYears(25)));
-        usersRecord.add(new userDto(3, "stephan", LocalDate.now().minusYears(20)));
+        usersRecord.add( new userDto(++userId, "Sanks", LocalDate.now().minusYears(30)));
+        usersRecord.add(new userDto(++userId, "sidney", LocalDate.now().minusYears(25)));
+        usersRecord.add(new userDto(++userId, "stephan", LocalDate.now().minusYears(20)));
     }
     public List<userDto> findAll(){
         return usersRecord;
@@ -24,6 +25,12 @@ public class usersDaoService {
     public userDto findById(long id){
         Predicate<? super userDto> isVal = userDto -> userDto.id() == id;
         return usersRecord.stream().filter(isVal).findFirst().orElse(null);
+    }
+
+    public userDto createUser(userDto user){
+        userDto newUser = new userDto(++userId, user.name(), user.birthDay());
+        usersRecord.add(newUser);
+        return newUser;
     }
 
 }

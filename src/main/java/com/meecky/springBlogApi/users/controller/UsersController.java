@@ -39,4 +39,12 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new userResponse("Data Not Found", -1));
         return ResponseEntity.ok(new userResponse("Operation successful", 0, Optional.of(responseVal)));
     }
+
+    @PostMapping("/")
+    public ResponseEntity<userResponse> createUser(@RequestBody userDto user){
+        userDto response = service.createUser(user);
+        if (response == null)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new userResponse("user with id already exist, id must be unique", -1));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new userResponse("user created successful", 0, Optional.of(response)));
+    }
 }
