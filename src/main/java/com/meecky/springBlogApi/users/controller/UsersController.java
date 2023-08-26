@@ -20,11 +20,6 @@ public class UsersController {
     public UsersController(usersDaoService service) {
         this.service = service;
     }
-    //    @PostMapping("/")
-//    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
-//        usersRecord.add(user);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-//    }
 
     @GetMapping("/")
     public ResponseEntity<userResponseDto> getUsersList(){
@@ -42,8 +37,14 @@ public class UsersController {
     @PostMapping("/")
     public ResponseEntity<userResponseDto> createUser(@RequestBody userDto user){
         userDto response = service.createUser(user);
-        if (response == null)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new userResponseDto("user with id already exist, id must be unique", -1));
         return ResponseEntity.status(HttpStatus.CREATED).body(new userResponseDto("user created successful", 0, Optional.of(response)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<userResponseDto> removeUser(@PathVariable long id){
+        userDto removedUser = service.removeById(id);
+        if (removedUser == null)
+            throw new UserNotFoundException("User With Id: " + id + " dose not exist");
+        return new ResponseEntity<userResponseDto>(new userResponseDto("Delete successfull", 0, Optional.of(removedUser)), HttpStatus.OK);
     }
 }

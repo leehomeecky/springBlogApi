@@ -33,4 +33,10 @@ public class usersDaoService {
         return newUser;
     }
 
+    public userDto removeById(long id){
+        Predicate<? super userDto> isVal = userDto -> userDto.id() == id;
+        userDto userToRemove = usersRecord.stream().filter(isVal).findFirst().orElse(null);
+        usersRecord.removeIf(isVal);
+        return userToRemove;
+    }
 }
