@@ -3,6 +3,7 @@ package com.meecky.springBlogApi.users.controller;
 import com.meecky.springBlogApi.users.dto.*;
 import com.meecky.springBlogApi.users.DaoService.usersDaoService;
 import com.meecky.springBlogApi.users.exception.UserNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UsersController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<userResponseDto> createUser(@RequestBody userDto user){
+    public ResponseEntity<userResponseDto> createUser(@Valid @RequestBody userDto user){
         userDto response = service.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(new userResponseDto("user created successful", 0, Optional.of(response)));
     }
